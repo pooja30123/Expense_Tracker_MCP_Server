@@ -21,8 +21,12 @@
 from fastmcp import FastMCP
 import os
 import sqlite3
+import tempfile
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "expenses.db")
+DB_PATH = os.environ.get("EXPENSES_DB_PATH")
+if not DB_PATH:
+    # Use a writable temp directory if not set
+    DB_PATH = os.path.join(tempfile.gettempdir(), "expenses.db")
 CATEGORIES_PATH = os.path.join(os.path.dirname(__file__), "categories.json")
 
 mcp = FastMCP(name="ExpenseTracker")
